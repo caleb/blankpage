@@ -31,6 +31,9 @@ bool is_whitepage(Mat im, double contrast, int brightness) {
     }
   }
 
+  // cv::imshow("some", new_image);
+  // cv::waitKey();
+
   std::vector<KeyPoint> keypoints;
 
   SimpleBlobDetector::Params params;
@@ -66,12 +69,12 @@ bool is_whitepage(Mat im, double contrast, int brightness) {
   return is_whitepage;
 }
 
-bool is_blank_filename(std::string filename, double brightness, int contrast) {
+bool is_blank_filename(std::string filename, double contrast, int brightness) {
   Mat im = imread(filename);
   return is_whitepage(im, brightness, contrast);
 }
 
-bool is_blank_bytes(std::string byte_string, double brightness, int contrast) {
+bool is_blank_bytes(std::string byte_string, double contrast, int brightness) {
   uchar *bytes = reinterpret_cast<uchar *>(byte_string.data());
   size_t length = byte_string.size();
 
