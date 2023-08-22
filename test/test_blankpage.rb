@@ -10,7 +10,7 @@ class TestBlankPage < Minitest::Test
     images.each do |image|
       puts "Testing #{image}"
       data = File.read(image)
-      assert Blankpage.is_blank_bytes?(data, 1.2, 0)
+      assert Blankpage.blank?(data:, contrast: 1.2, brightness: 0)
     end
 
     images = Dir.glob('assets/not_blank/*.*')
@@ -18,7 +18,7 @@ class TestBlankPage < Minitest::Test
     images.each do |image|
       puts "Testing #{image}"
       data = File.read(image)
-      assert !Blankpage.is_blank_bytes?(data, 1.2, 0)
+      assert !Blankpage.blank?(data:, contrast: 1.2, brightness: 0)
     end
   end
 end

@@ -71,7 +71,7 @@ bool is_whitepage(Mat im, double contrast, int brightness) {
 
 bool is_blank_filename(std::string filename, double contrast, int brightness) {
   Mat im = imread(filename);
-  return is_whitepage(im, brightness, contrast);
+  return is_whitepage(im, contrast, brightness);
 }
 
 bool is_blank_bytes(std::string byte_string, double contrast, int brightness) {
@@ -80,12 +80,12 @@ bool is_blank_bytes(std::string byte_string, double contrast, int brightness) {
 
   cv::Mat1b data(1, length, bytes);
   Mat im = imdecode(data, IMREAD_ANYCOLOR);
-  return is_whitepage(im, brightness, contrast);
+  return is_whitepage(im, contrast, brightness);
 }
 
 extern "C" void
 Init_blankpage(void) {
-  Module rb_mBlankpage = define_module("Blankpage");
+  Module rb_mBlankpage = define_module("BlankpageExt");
   rb_mBlankpage.define_module_function("is_blank_filename?", &is_blank_filename);
   rb_mBlankpage.define_module_function("is_blank_bytes?", &is_blank_bytes);
 }
