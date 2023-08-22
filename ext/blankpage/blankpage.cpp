@@ -19,17 +19,14 @@ using namespace cv;
 using namespace std;
 using namespace Rice;
 
-bool is_whitepage(Mat im) {
- Mat new_image = Mat::zeros( im.size(), im.type() );
+bool is_whitepage(Mat im, double contrast, int brightness) {
+  Mat new_image = Mat::zeros(im.size(), im.type());
 
-  double alpha = 1.25; /*< Simple contrast control */
-  int beta = 0; /*< Simple brightness control */
-
-  for( int y = 0; y < im.rows; y++ ) {
-    for( int x = 0; x < im.cols; x++ ) {
-      for( int c = 0; c < im.channels(); c++ ) {
-        new_image.at<Vec3b>(y,x)[c] =
-        saturate_cast<uchar>( alpha*im.at<Vec3b>(y,x)[c] + beta );
+  for (int y = 0; y < im.rows; y++) {
+    for (int x = 0; x < im.cols; x++) {
+      for (int c = 0; c < im.channels(); c++) {
+        new_image.at<Vec3b>(y, x)[c] =
+            saturate_cast<uchar>(contrast * im.at<Vec3b>(y, x)[c] + brightness);
       }
     }
   }
@@ -69,18 +66,18 @@ bool is_whitepage(Mat im) {
   return is_whitepage;
 }
 
-bool is_blank_filename(std::string filename) {
+bool is_blank_filename(std::string filename, double brightness, int contrast) {
   Mat im = imread(filename);
-  return is_whitepage(im);
+  return is_whitepage(im, brightness, contrast);
 }
 
-bool is_blank_bytes(std::string byte_string) {
-  uchar* bytes = reinterpret_cast<uchar*>(byte_string.data());
+bool is_blank_bytes(std::string byte_string, double brightness, int contrast) {
+  uchar *bytes = reinterpret_cast<uchar *>(byte_string.data());
   size_t length = byte_string.size();
 
   cv::Mat1b data(1, length, bytes);
   Mat im = imdecode(data, IMREAD_ANYCOLOR);
-  return is_whitepage(im);
+  return is_whitepage(im, brightness, contrast);
 }
 
 extern "C" void
