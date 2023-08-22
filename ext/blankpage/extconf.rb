@@ -1,5 +1,12 @@
 require 'mkmf-rice'
 
+ENV['PKG_CONFIG_PATH'] ||= ''
+ENV['PKG_CONFIG_PATH'] += if RUBY_PLATFORM =~ /darwin/
+                            ':/usr/local/lib/pkgconfig:/opt/homebrew/lib/pkgconfig:/opt/homebrew/share/pkgconfig'
+                          else
+                            ':/usr/local/lib/pkgconfig:/usr/local/share/pkgconfig:/usr/lib/pkgconfig:/usr/share/pkgconfig'
+                          end
+
 $CXXFLAGS += ' -std=c++17 $(optflags)'
 
 # change to 0 for Linux pre-cxx11 ABI version
