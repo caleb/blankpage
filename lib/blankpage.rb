@@ -12,11 +12,11 @@ module Blankpage
       end
     elsif file
       if file.is_a?(String)
-        BlankpageExt.is_blank_filename?(data, contrast, brightness)
+        BlankpageExt.is_blank_filename?(file, contrast, brightness)
       elsif file.is_a?(Tempfile)
-        BlankpageExt.is_blank_filename?(data.path, contrast, brightness)
+        BlankpageExt.is_blank_filename?(file.path, contrast, brightness)
       elsif file.is_a?(Pathname)
-        BlankpageExt.is_blank_filename?(data.to_s, contrast, brightness)
+        BlankpageExt.is_blank_filename?(file.to_s, contrast, brightness)
       end
     end
   end
